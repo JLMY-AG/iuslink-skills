@@ -20,6 +20,7 @@ Or clone the whole repo into `.claude/skills/` if you want every skill available
 | Skill | Description |
 |---|---|
 | [`swiss-legal-research`](./swiss-legal-research/SKILL.md) | Swiss legal research workflows for federal legislation (Fedlex), cantonal law (LexFind), and case law (Entscheidsuche/BGE). |
+| [`swiss-legal-deep-research`](./swiss-legal-deep-research/SKILL.md) | Multi-agent orchestration for complex or comparative legal questions — fans out to parallel research agents (iuslink-only, no web) and fuses their findings. |
 
 ## License
 
