@@ -49,7 +49,7 @@ To find the actual leading case rather than the most recent mention: filter `cou
 
 ## Retrieving a decision's text
 
-- Pass `format` explicitly on `get_entscheidsuche_document` — don't rely on the default. The tool's own schema documents the default as `json` (metadata only), but the observed default actually returns the full `text` body; the two disagree, so an implicit call is not reliably reproducible.
+- Pass `format` explicitly on `get_entscheidsuche_document` regardless of what you want. The tool's description says the default is `json` (metadata only), but the schema's actual enforced default is `text` (full body) — a known documentation/implementation mismatch on the iuslink side, not something to rely on either way.
 - `format=json` is not guaranteed to exist for every court. It returned rich structured metadata (abstract in all three languages, docket references, etc.) for a Bundesgericht/BGE decision, but came back with **no body at all** for a cantonal Handelsgericht decision — the same decision's full text was available under `format=text`. For cantonal courts, use `format=text` (or `html`) to reliably get content; don't conclude a decision has no content just because `format=json` came back empty.
 - Long decisions are paginated — use `has_more`, `next_offset`, and `total_chars` from the response to know whether to fetch another chunk, rather than assuming one call returned everything.
 - An unresolvable signature fails loudly with a clear message ("document text was not found; verify signature/spider or use search_entscheidsuche first") rather than silent nulls — if you hit this, go back to `search_entscheidsuche` rather than guessing a `spider` value.
@@ -57,6 +57,16 @@ To find the actual leading case rather than the most recent mention: filter `cou
 ## Case-law citation chains
 
 `get_entscheidsuche_citations` returns one flat list of directly related citations (both what the case cites and what cites it) in a single call — it does not recursively walk the citation network for you. To go further than one hop, call it again on one of the returned citations.
+
+## Cantonal law: `get_cantonal_law` never returns statute text
+
+This is the most important gap to know about. `get_cantonal_law` returns metadata only — systematic number, title, canton, `is_active`, and `original_url` — there is no cantonal equivalent of `get_fedlex_text`/`get_fedlex_article`. iuslink cannot hand you the actual text of a cantonal law; the furthest it gets you is the official source link.
+
+Practical consequence: never quote or paraphrase specific cantonal statute wording as if retrieved from iuslink — you haven't retrieved it. Cite the systematic number and canton, hand back `original_url` as the source, and say explicitly that the text itself needs to be read at that link. This is a direct extension of the source-of-truth rule: don't let the presence of a plausible-looking metadata result imply you've verified the actual text.
+
+Two smaller, related points:
+- `search_cantonal_law` also covers federal law via `cantons: ["CH"]` (LexFind indexes it too, using the same systematic numbers as Fedlex's SR notation). Don't use this path for federal statutes, though — it's metadata-only same as cantonal, so you lose article-level retrieval and versioning for no benefit. Use the Fedlex tools for anything federal; reserve LexFind for cantonal law, where it's the only option.
+- Searching multiple cantons in one call (`cantons: ["ZH", "BE"]`) runs one search per canton and concatenates the result blocks in the order you listed them — it is not one globally-ranked result set. Don't treat position in a multi-canton result list as a relevance signal across cantons.
 
 ## Tool selection at a glance
 
@@ -70,7 +80,7 @@ To find the actual leading case rather than the most recent mention: filter `cou
 | Case law, leading precedent on a topic | `search_entscheidsuche` with `courts: [CH_BGer]` and `sort: relevance` → `get_entscheidsuche_document --format text` |
 | Case law, citation known | `search_entscheidsuche "<citation>"` → `get_entscheidsuche_document --format text` |
 | Case law, citation chain | `get_entscheidsuche_citations` (single hop — call again on a result to go further) |
-| Cantonal law | `search_cantonal_law "<term>" --canton <code>` → `get_cantonal_law` |
+| Cantonal law (metadata + source link only) | `search_cantonal_law "<term>" --canton <code>` → `get_cantonal_law` |
 
 Only `get_fedlex_outline` and `resolve_fedlex_statute` accept a bare alias — `get_fedlex_text`, `get_fedlex_article`, and `list_fedlex_versions` all require the exact `eli_uri`. For a well-known abbreviation, calling `get_fedlex_outline` directly is one hop shorter than resolving first, since its response already includes the `eli_uri` you need for the follow-up call.
 
