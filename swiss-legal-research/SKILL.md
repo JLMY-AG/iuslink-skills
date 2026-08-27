@@ -39,7 +39,24 @@ Not every historical version has retrievable text — `list_fedlex_versions` ret
 - **Article suffixes are letters, not Latin ordinals**: inserted articles are numbered `28, 28a, 28b, 28c, ...` — confirmed identical in German *and* French Fedlex text (`Art. 28a` in both ZGB and the Code civil). Legacy `bis`/`ter` notation (`28bis`) is not accepted and returns an error — if a source you're working from uses that older style, drop it and try the plain number or letter suffix instead.
 - **Cantonal name collisions**: federal abbreviations (`OR`, `ZGB`, `StGB`, `BV`) are effectively unique nationally, but cantons can reuse generic names (multiple cantons each have a "Baugesetz") for unrelated laws. Always pass the canton explicitly to `search_cantonal_law` — never resolve cantonal law by name alone.
 - **Ambiguous case citations**: if a citation doesn't parse cleanly against the formats in `references/citation-formats.md`, run `search_entscheidsuche` with the raw string first to surface candidates before assuming a format.
-- **`resolve_fedlex_statute` doesn't take natural language**: pass an alias, title fragment, or SR number (`StGB`, `Datenschutzgesetz`, `SR 311.0`) — not a phrased question like "what law covers data protection."
+- **None of iuslink's search tools accept natural language**: `resolve_fedlex_statute` wants an alias, title fragment, or SR number (`StGB`, `Datenschutzgesetz`, `SR 311.0`); `search_entscheidsuche` wants short legal keywords or a citation/docket number, not a phrased question. This isn't a style preference — a natural-language question to `search_entscheidsuche` returns **zero results** (confirmed: "what happens when a tenant terminates a lease early without justification" → 0 hits with a hint to use shorter terms), where the equivalent keyword query (`Mietrecht Kündigung`) returns hundreds. Rephrase as keywords before concluding nothing exists.
+
+## Case-law search — lexical, not semantic, and recency-sorted by default
+
+`search_entscheidsuche` is keyword search, not semantic — it also **sorts by date, newest first, by default**, across every court. An unfiltered query doesn't surface the leading Bundesgericht precedent first; it surfaces whatever recent cantonal decision happens to mention the same words. Confirmed: `"Mietrecht Kündigung"` with no filters returned 907 results, top hits from a St. Gallen insurance court and an Aargau commercial court — nothing from the Bundesgericht in the top 3. Adding `courts: [CH_BGer]` and `sort: relevance` dropped it to 162 results, with the top 3 all on-point Bundesgericht decisions on lease termination.
+
+To find the actual leading case rather than the most recent mention: filter `courts` (`CH_BGer` for the Federal Supreme Court, `CH_BGE` for its published landmark decisions) and set `sort: relevance` explicitly. Don't treat the first hit of a default search as "the" case on a topic.
+
+## Retrieving a decision's text
+
+- Pass `format` explicitly on `get_entscheidsuche_document` — don't rely on the default. The tool's own schema documents the default as `json` (metadata only), but the observed default actually returns the full `text` body; the two disagree, so an implicit call is not reliably reproducible.
+- `format=json` is not guaranteed to exist for every court. It returned rich structured metadata (abstract in all three languages, docket references, etc.) for a Bundesgericht/BGE decision, but came back with **no body at all** for a cantonal Handelsgericht decision — the same decision's full text was available under `format=text`. For cantonal courts, use `format=text` (or `html`) to reliably get content; don't conclude a decision has no content just because `format=json` came back empty.
+- Long decisions are paginated — use `has_more`, `next_offset`, and `total_chars` from the response to know whether to fetch another chunk, rather than assuming one call returned everything.
+- An unresolvable signature fails loudly with a clear message ("document text was not found; verify signature/spider or use search_entscheidsuche first") rather than silent nulls — if you hit this, go back to `search_entscheidsuche` rather than guessing a `spider` value.
+
+## Case-law citation chains
+
+`get_entscheidsuche_citations` returns one flat list of directly related citations (both what the case cites and what cites it) in a single call — it does not recursively walk the citation network for you. To go further than one hop, call it again on one of the returned citations.
 
 ## Tool selection at a glance
 
@@ -50,8 +67,9 @@ Not every historical version has retrievable text — `list_fedlex_versions` ret
 | Statute, article unknown, alias known | `get_fedlex_outline` (pass the alias directly as `query`, e.g. `StGB`) → `get_fedlex_article` using the `eli_uri` the outline call returns |
 | Statute, article unknown, name unclear | `resolve_fedlex_statute` → `get_fedlex_outline` → `get_fedlex_article` |
 | Statute, historical version | `get_fedlex_text --as_of <date>` or `list_fedlex_versions` → `get_fedlex_text` |
-| Case law, citation known | `search_entscheidsuche "<citation>"` → `get_entscheidsuche_document` |
-| Case law, citation chain | `get_entscheidsuche_citations` (follow references) |
+| Case law, leading precedent on a topic | `search_entscheidsuche` with `courts: [CH_BGer]` and `sort: relevance` → `get_entscheidsuche_document --format text` |
+| Case law, citation known | `search_entscheidsuche "<citation>"` → `get_entscheidsuche_document --format text` |
+| Case law, citation chain | `get_entscheidsuche_citations` (single hop — call again on a result to go further) |
 | Cantonal law | `search_cantonal_law "<term>" --canton <code>` → `get_cantonal_law` |
 
 Only `get_fedlex_outline` and `resolve_fedlex_statute` accept a bare alias — `get_fedlex_text`, `get_fedlex_article`, and `list_fedlex_versions` all require the exact `eli_uri`. For a well-known abbreviation, calling `get_fedlex_outline` directly is one hop shorter than resolving first, since its response already includes the `eli_uri` you need for the follow-up call.
