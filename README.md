@@ -9,7 +9,7 @@ iuslink is the retrieval layer; these skills are the workflows on top of it — 
 Copy the skill folder you want into your project's or global `.claude/skills/` directory:
 
 ```bash
-git clone https://github.com/kevinzehnder/iuslink-skills.git
+git clone https://github.com/JLMY-AG/iuslink-skills.git
 cp -r iuslink-skills/swiss-legal-research ~/.claude/skills/
 ```
 
