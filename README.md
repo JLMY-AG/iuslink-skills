@@ -13,14 +13,15 @@ git clone https://github.com/JLMY-AG/iuslink-skills.git
 cp -r iuslink-skills/swiss-legal-research ~/.claude/skills/
 ```
 
-Or clone the whole repo into `.claude/skills/` if you want every skill available.
+Or clone the whole repo into `.claude/skills/` if you want every skill available. `swiss-legal-deep-research` builds on `swiss-legal-research`; `swiss-legal-gutachten` uses both, so install all three for the complete opinion workflow.
 
 ## Skills
 
 | Skill | Description |
 |---|---|
 | [`swiss-legal-research`](./swiss-legal-research/SKILL.md) | Swiss legal research workflows for federal legislation (Fedlex), cantonal law (LexFind), and case law (Entscheidsuche/BGE). |
-| [`swiss-legal-deep-research`](./swiss-legal-deep-research/SKILL.md) | Multi-agent orchestration for complex or comparative legal questions — fans out to parallel research agents (iuslink-only, no web) and fuses their findings. |
+| [`swiss-legal-deep-research`](./swiss-legal-deep-research/SKILL.md) | Multi-agent orchestration for complex or comparative legal questions — web may identify issues, while legal findings remain iuslink-only and primary-source verified. |
+| [`swiss-legal-gutachten`](./swiss-legal-gutachten/SKILL.md) | Produces a neutral Swiss legal opinion from stated facts and verified research, with issue-by-issue application, counterarguments, uncertainty, and source traceability. |
 
 ## License
 
