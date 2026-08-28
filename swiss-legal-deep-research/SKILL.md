@@ -1,17 +1,17 @@
 ---
 name: swiss-legal-deep-research
-description: Multi-agent research orchestration for complex, comparative, or unsettled Swiss legal questions. Decomposes the question, delegates narrow iuslink-only research assignments, and fuses verified primary-source findings. Web search is permitted only for issue-spotting. Use for multi-part, cross-jurisdiction, or genuinely unclear questions; not for a single citation or statute lookup.
+description: Orchestrates primary-source research for complex, comparative, or unsettled Swiss legal questions. Use for multi-part, cross-jurisdiction, or genuinely unclear questions—not direct statute, citation, or single-issue retrieval.
 ---
 
-## Boundary with `swiss-legal-research`
+## Dependency and routing
 
-- One fact, citation, statute, or clean legal question → skip orchestration and perform direct iuslink research using the sibling source instructions.
+This skill requires `../swiss-legal-research/SKILL.md`. Read it with the host's file-reading tool before researching. If it is unavailable, report that installation is incomplete and stop; do not replace its source rules from memory. It is an instruction file, not a callable tool.
+
+- One fact, citation, statute, or clean legal question → load and follow `swiss-legal-research`; skip orchestration.
 - Two to four already-defined sub-questions → use **Standard mode**.
 - Broad, unclear, comparative, multi-jurisdictional, unsettled, or high-stakes question → use **Deep mode**.
 
-At the start, use the host's file-reading tool to read `../swiss-legal-research/SKILL.md` if that sibling file exists. It is an instruction file, not a callable tool. Never call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or an invented workflow phase. This skill adds orchestration; it does not weaken the source rules.
-
-Iuslink operation names are host-specific. Use the exact available tool whose name ends with the requested operation; OMP, for example, prefixes them with `mcp_iuslink_`.
+Never call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or workflow phases. This skill adds orchestration; it does not weaken the loaded source rules.
 
 ## Core rule: web finds questions, iuslink answers them
 
@@ -64,9 +64,7 @@ Each research report must contain:
 - search log, including material unsuccessful searches;
 - residual uncertainty and a reasoned confidence label: `established`, `fact-dependent`, or `unresolved`.
 
-A search result or metadata record is not authority for a holding. Every cited decision must be opened in `format=text` and read far enough to verify the relevant passage in context. Do not impose case-count quotas; stop when the issue has an adequate, citation-backed answer or the documented search has reached a genuine source gap.
-
-For cantonal legislation, remember that iuslink returns metadata and the official link, not the statute text. Never quote or paraphrase cantonal provisions as verified text unless the text was obtained from an authorised source outside iuslink and clearly identified as such.
+Apply the loaded source-verification rules to every packet. Do not impose case-count quotas; stop when the issue has an adequate, citation-backed answer or the documented search has reached a genuine source gap.
 
 ## 4. Fuse through a claim-evidence matrix
 
@@ -99,8 +97,6 @@ Run one adversarial preflight: identify unsupported claims, unread decisions, mi
 
 - **Duplicate work:** assign exact sub-questions, not the parent topic.
 - **Runaway fan-out:** match agent count to genuinely independent issues.
-- **Natural-language database searches:** convert questions into short legal keywords or citations.
-- **Recency bias:** prefer controlling and factually relevant authority over merely recent authority.
 - **Quota filling:** never add irrelevant decisions to reach an arbitrary number.
 - **False negative claims:** report the databases, queries, filters, and limits searched instead of claiming exhaustive absence.
 - **Premature completion:** metadata-only decisions, unverified cantonal text, or unresolved contradictions keep the affected claim open.

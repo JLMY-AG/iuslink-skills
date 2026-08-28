@@ -7,11 +7,11 @@ description: Swiss legal research workflows for federal legislation (Fedlex), ca
 
 The operation names in this skill are logical iuslink names, not names to invent as tool calls. Use the exact tool exposed by the current host whose name ends with the required operation. For example, OMP exposes `resolve_fedlex_statute` as `mcp_iuslink_resolve_fedlex_statute`, while another host may expose the bare name. Inspect the available tools once and use that exact spelling.
 
-Never call a tool named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or `swiss-legal-intake`. Skills and workflow phases are instructions, not tools. If the required iuslink operation is not exposed, report the blocker instead of guessing a substitute.
+Never call a tool named `skill`, `swiss-legal-research`, or `swiss-legal-deep-research`. Skills and workflow phases are instructions, not tools. If the required iuslink operation is not exposed, report the blocker instead of guessing a substitute.
 
 ## Source‑of‑truth rule (mandatory)
 
-Never cite, quote, or rely on legal text from memory or prior model knowledge. Always retrieve the current official source via iuslink before using any statute or case.
+Never cite, quote, or rely on legal text from memory or prior model knowledge. Always retrieve the applicable official version via iuslink before using any statute or case.
 
 ## Fail loudly — never guess a substitute
 

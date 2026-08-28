@@ -1,6 +1,6 @@
 ---
 name: swiss-legal-gutachten
-description: Produces a neutral, source-grounded Swiss legal opinion (Gutachten/Rechtsgutachten/legal opinion) from stated facts and verified iuslink research. Use when the user wants legal assessment and application, not merely source retrieval or a court pleading.
+description: Produces a neutral Swiss legal opinion (Gutachten/Rechtsgutachten) that applies verified primary sources to stated facts. Use for legal assessment and application, not direct source retrieval or a court pleading.
 ---
 
 # Swiss legal Gutachten
@@ -11,15 +11,13 @@ Use the user's language. In German, write Swiss Standard German (`ss`, not `ß`)
 
 ## Dependencies and boundaries
 
-At the start, use the host's file-reading tool to read `../swiss-legal-research/SKILL.md` if that sibling file exists. It is an instruction file, not a callable tool. Do not call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, `swiss-legal-intake`, or any other invented workflow phase. The numbered sections below are reasoning steps, not tool APIs.
+This skill requires `../swiss-legal-research/SKILL.md`. Read it with the host's file-reading tool before researching. If it is unavailable, report that installation is incomplete and stop; do not replace its source rules from memory. It is an instruction file, not a callable tool.
 
-Iuslink operation names are host-specific. Use the exact available tool whose name ends with the requested operation; OMP, for example, prefixes them with `mcp_iuslink_`. Never cite legal text or a decision from memory.
-
-- For one clean issue, research directly; orchestration overhead is unnecessary.
-- For multiple, comparative, unclear, or unsettled issues, use the host's actual subagent mechanism if available and give each agent one narrow issue plus iuslink access. Otherwise research sequentially.
+- For one clean issue, research directly under the loaded source rules.
+- For multiple, comparative, unclear, or unsettled issues, read and follow `../swiss-legal-deep-research/SKILL.md` when it is installed; otherwise research the narrow issues sequentially.
 - This skill does not draft pleadings, mirror an opponent's brief, manage evidence exhibits, or render DOCX/PDF.
 
-If required iuslink tools are unavailable, do not manufacture a legal opinion. State the research blocker and, if useful, provide only a clearly labelled issue outline.
+Never call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or workflow phases. If required iuslink tools are unavailable, do not manufacture a legal opinion. State the research blocker and, if useful, provide only a clearly labelled issue outline.
 
 ## 1. Define the mandate
 
@@ -54,16 +52,7 @@ Keep these categories separate throughout:
 
 ## 3. Research proportionately
 
-Route each issue without invoking another skill as a tool:
-
-- one known provision or citation → research directly with the loaded iuslink source rules;
-- several independent, comparative, or unsettled issues → split them into narrow assignments and use the host's real subagent tool if available, otherwise process them sequentially.
-
-Research the applicable version of federal law, not automatically the current version. Read every relied-on decision in full text and capture the relevant consideration in context. Search for limiting or contrary authority where it could materially change the result.
-
-For cantonal legislation, iuslink supplies metadata and the official link, not verified statutory text. Do not quote or paraphrase the provision as retrieved law. Identify the limitation and keep any text-dependent conclusion open until the official text has actually been read through an authorised source.
-
-Web search may help discover issues in Deep mode. It may not support a legal proposition in the opinion.
+For one known provision or citation, research directly under the loaded source rules. For several independent, comparative, or unsettled issues, follow the installed deep-research workflow or research the narrow issues sequentially. Search for limiting or contrary authority where it could materially change the result.
 
 ## 4. Pass the evidence gate
 
@@ -98,20 +87,7 @@ Use the classic rule/application/result sequence where it clarifies the analysis
 
 ## 6. Adversarial preflight
 
-Before finalising, check:
-
-- Is every legal proposition traceable to an actual iuslink retrieval?
-- Was the legally applicable statutory version used?
-- Was every cited decision read in `format=text`, including the relevant context?
-- Are judicial holdings separated from this opinion's inferences?
-- Are facts, assumptions, and disputed facts visibly distinct?
-- Is material contrary authority fairly addressed?
-- Does any cantonal-law claim exceed iuslink's metadata-only coverage?
-- Are negative-search claims appropriately limited?
-- Is each conclusion no stronger than its sources and facts?
-- Does the executive summary match the detailed analysis?
-
-Repair concrete defects only; do not expand the mandate for completeness's sake.
+Apply the loaded source-verification checks, then confirm that facts, assumptions, source findings, and applications remain distinct; material contrary authority is addressed; every conclusion matches its evidence; and the executive summary matches the detailed analysis. Repair concrete defects only; do not expand the mandate for completeness's sake.
 
 ## 7. Deliverable
 
