@@ -1,0 +1,20 @@
+{
+  "name": "iuslink-skills",
+  "description": "Swiss legal research plugins for iuslink",
+  "owner": {
+    "name": "JLMY AG"
+  },
+  "plugins": [
+    {
+      "name": "iuslink-skills",
+      "source": "./",
+      "description": "Source-grounded Swiss legal research and Gutachten workflows for iuslink",
+      "version": "0.1.0",
+      "author": {
+        "name": "JLMY AG"
+      },
+      "homepage": "https://github.com/JLMY-AG/iuslink-skills",
+      "repository": "https://github.com/JLMY-AG/iuslink-skills"
+    }
+  ]
+}

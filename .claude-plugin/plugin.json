@@ -1,0 +1,23 @@
+{
+  "name": "iuslink-skills",
+  "displayName": "iuslink Skills",
+  "version": "0.1.0",
+  "description": "Source-grounded Swiss legal research and Gutachten workflows for iuslink",
+  "author": {
+    "name": "JLMY AG",
+    "url": "https://github.com/JLMY-AG"
+  },
+  "homepage": "https://github.com/JLMY-AG/iuslink-skills",
+  "repository": "https://github.com/JLMY-AG/iuslink-skills",
+  "license": "MIT",
+  "keywords": [
+    "swiss-law",
+    "legal-research",
+    "iuslink"
+  ],
+  "skills": [
+    "./swiss-legal-research",
+    "./swiss-legal-deep-research",
+    "./swiss-legal-gutachten"
+  ]
+}
