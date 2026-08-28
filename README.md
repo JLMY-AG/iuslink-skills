@@ -19,7 +19,7 @@ Run inside Claude Code:
 /plugin install iuslink-skills@iuslink-skills
 ```
 
-### OMP / Pi package
+### Pi package
 
 Run in your shell:
 
@@ -34,6 +34,18 @@ pi install /absolute/path/to/iuslink-skills
 ```
 
 Restart Pi or run `/reload`, then invoke `/skill:swiss-legal-gutachten` or let Pi select a skill from its description.
+
+### OMP plugin
+
+Pi and OMP keep separate package registries. Install the same marketplace plugin explicitly in OMP:
+
+```bash
+omp plugin marketplace add JLMY-AG/iuslink-skills
+omp plugin install iuslink-skills@iuslink-skills
+omp plugin list
+```
+
+Restart OMP, then invoke `/skill:swiss-legal-gutachten`.
 
 ### Manual Agent Skills installation
 
