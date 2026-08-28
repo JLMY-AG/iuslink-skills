@@ -9,7 +9,7 @@
       "name": "iuslink-skills",
       "source": "./",
       "description": "Source-grounded Swiss legal research and Gutachten workflows for iuslink",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "JLMY AG"
       },

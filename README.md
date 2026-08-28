@@ -45,6 +45,13 @@ omp plugin install iuslink-skills@iuslink-skills
 omp plugin list
 ```
 
+To update an existing installation:
+
+```bash
+omp plugin marketplace update iuslink-skills
+omp plugin upgrade iuslink-skills@iuslink-skills
+```
+
 Restart OMP, then invoke `/skill:swiss-legal-gutachten`.
 
 ### Manual Agent Skills installation

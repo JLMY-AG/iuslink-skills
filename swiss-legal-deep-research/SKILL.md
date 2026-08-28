@@ -1,16 +1,17 @@
 ---
 name: swiss-legal-deep-research
 description: Multi-agent research orchestration for complex, comparative, or unsettled Swiss legal questions. Decomposes the question, delegates narrow iuslink-only research assignments, and fuses verified primary-source findings. Web search is permitted only for issue-spotting. Use for multi-part, cross-jurisdiction, or genuinely unclear questions; not for a single citation or statute lookup.
-allowed-tools: Agent WebSearch resolve_fedlex_statute get_fedlex_article get_fedlex_text get_fedlex_outline list_fedlex_versions search_entscheidsuche get_entscheidsuche_document get_entscheidsuche_citations search_cantonal_law get_cantonal_law
 ---
 
 ## Boundary with `swiss-legal-research`
 
-- One fact, citation, statute, or clean legal question → use `swiss-legal-research` directly.
+- One fact, citation, statute, or clean legal question → skip orchestration and perform direct iuslink research using the sibling source instructions.
 - Two to four already-defined sub-questions → use **Standard mode**.
 - Broad, unclear, comparative, multi-jurisdictional, unsettled, or high-stakes question → use **Deep mode**.
 
-Always follow `swiss-legal-research` for tool selection, versioning, source limitations, and citation handling. This skill adds orchestration; it does not weaken those rules.
+At the start, use the host's file-reading tool to read `../swiss-legal-research/SKILL.md` if that sibling file exists. It is an instruction file, not a callable tool. Never call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or an invented workflow phase. This skill adds orchestration; it does not weaken the source rules.
+
+Iuslink operation names are host-specific. Use the exact available tool whose name ends with the requested operation; OMP, for example, prefixes them with `mcp_iuslink_`.
 
 ## Core rule: web finds questions, iuslink answers them
 
@@ -42,7 +43,7 @@ Do not delegate broad topics. Each assignment must be answerable independently w
 
 ## Standard mode
 
-Delegate 2–4 issue-map entries in parallel using `references/subagent-prompts.md`. Legal-research agents receive iuslink tools only and write separate reports. If parallel agents are unavailable, run the same assignments sequentially rather than changing the source rules.
+Delegate 2–4 issue-map entries in parallel using `references/subagent-prompts.md` and the host's actual subagent mechanism. Legal-research agents receive iuslink tools only and write separate reports. If parallel agents are unavailable, run the same assignments sequentially rather than inventing an agent or skill tool.
 
 ## Deep mode
 

@@ -1,7 +1,6 @@
 ---
 name: swiss-legal-gutachten
 description: Produces a neutral, source-grounded Swiss legal opinion (Gutachten/Rechtsgutachten/legal opinion) from stated facts and verified iuslink research. Use when the user wants legal assessment and application, not merely source retrieval or a court pleading.
-allowed-tools: Agent WebSearch resolve_fedlex_statute get_fedlex_article get_fedlex_text get_fedlex_outline list_fedlex_versions search_entscheidsuche get_entscheidsuche_document get_entscheidsuche_citations search_cantonal_law get_cantonal_law
 ---
 
 # Swiss legal Gutachten
@@ -12,9 +11,12 @@ Use the user's language. In German, write Swiss Standard German (`ss`, not `ß`)
 
 ## Dependencies and boundaries
 
-- Follow `swiss-legal-research` for every source lookup. Never cite legal text or a decision from memory.
-- Use `swiss-legal-deep-research` when the opinion has multiple, comparative, unclear, or unsettled issues.
+At the start, use the host's file-reading tool to read `../swiss-legal-research/SKILL.md` if that sibling file exists. It is an instruction file, not a callable tool. Do not call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, `swiss-legal-intake`, or any other invented workflow phase. The numbered sections below are reasoning steps, not tool APIs.
+
+Iuslink operation names are host-specific. Use the exact available tool whose name ends with the requested operation; OMP, for example, prefixes them with `mcp_iuslink_`. Never cite legal text or a decision from memory.
+
 - For one clean issue, research directly; orchestration overhead is unnecessary.
+- For multiple, comparative, unclear, or unsettled issues, use the host's actual subagent mechanism if available and give each agent one narrow issue plus iuslink access. Otherwise research sequentially.
 - This skill does not draft pleadings, mirror an opponent's brief, manage evidence exhibits, or render DOCX/PDF.
 
 If required iuslink tools are unavailable, do not manufacture a legal opinion. State the research blocker and, if useful, provide only a clearly labelled issue outline.
@@ -52,10 +54,10 @@ Keep these categories separate throughout:
 
 ## 3. Research proportionately
 
-Route each issue:
+Route each issue without invoking another skill as a tool:
 
-- one known provision or citation → `swiss-legal-research`;
-- several independent, comparative, or unsettled issues → `swiss-legal-deep-research`.
+- one known provision or citation → research directly with the loaded iuslink source rules;
+- several independent, comparative, or unsettled issues → split them into narrow assignments and use the host's real subagent tool if available, otherwise process them sequentially.
 
 Research the applicable version of federal law, not automatically the current version. Read every relied-on decision in full text and capture the relevant consideration in context. Search for limiting or contrary authority where it could materially change the result.
 

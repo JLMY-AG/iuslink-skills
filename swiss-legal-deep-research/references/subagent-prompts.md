@@ -16,7 +16,9 @@ Counter-check: <specific limiting or contrary proposition to test>
 
 Source rules:
 - Use iuslink only (Fedlex / Entscheidsuche / LexFind). No web and no model-memory citations.
-- Follow the swiss-legal-research skill, including historical-version and cantonal-text limitations.
+- Iuslink operation names are logical names: call the exact host-provided tool ending with that operation (OMP prefixes them with mcp_iuslink_).
+- The swiss-legal-research skill is an instruction reference, not a tool. Never call a tool named skill or any swiss-legal-* workflow name.
+- Follow the loaded swiss-legal-research instructions, including historical-version and cantonal-text limitations.
 - Start with short legal keywords, statute names, or citations; do not submit natural-language questions to search tools.
 - A search result or metadata record is not proof of a holding. Open every relied-on decision with
   get_entscheidsuche_document format=text and read the relevant passage in context.

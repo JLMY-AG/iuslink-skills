@@ -1,8 +1,13 @@
 ---
 name: swiss-legal-research
 description: Swiss legal research workflows for federal legislation (Fedlex), cantonal law (LexFind), and case law (Entscheidsuche/BGE). Use for any query requiring authoritative Swiss legal sources.
-allowed-tools: resolve_fedlex_statute get_fedlex_article get_fedlex_text get_fedlex_outline list_fedlex_versions search_entscheidsuche get_entscheidsuche_document get_entscheidsuche_citations search_cantonal_law get_cantonal_law
 ---
+
+## Tool names are host-specific
+
+The operation names in this skill are logical iuslink names, not names to invent as tool calls. Use the exact tool exposed by the current host whose name ends with the required operation. For example, OMP exposes `resolve_fedlex_statute` as `mcp_iuslink_resolve_fedlex_statute`, while another host may expose the bare name. Inspect the available tools once and use that exact spelling.
+
+Never call a tool named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or `swiss-legal-intake`. Skills and workflow phases are instructions, not tools. If the required iuslink operation is not exposed, report the blocker instead of guessing a substitute.
 
 ## Source‑of‑truth rule (mandatory)
 
