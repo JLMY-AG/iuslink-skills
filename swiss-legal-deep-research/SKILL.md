@@ -13,7 +13,7 @@ Orchestrate primary-source research for complex, comparative, or unsettled Swiss
 
 ## Dependencies
 
-This skill builds on `swiss-legal-research` and follows its source, language, and tool-naming rules without restating them. Loading skills: if the host exposes a skill-loading tool (for example Claude Code's `Skill` tool), use it to load `swiss-legal-research`. Otherwise read `../swiss-legal-research/SKILL.md` with the host's file-reading tool. If neither works, report that the installation is incomplete and stop; do not reconstruct its rules from memory. Skill names and workflow phase names are not iuslink operations: never invent tools the host does not expose, and if a required iuslink operation is missing, report the blocker instead of substituting.
+This skill builds on `swiss-legal-research` and follows its source, language, and tool-naming rules without restating them. Load it with the host's skill-loading tool (for example Claude Code's `Skill` tool) or by reading `../swiss-legal-research/SKILL.md`; if neither works, report that the installation is incomplete and stop.
 
 ## Routing
 
