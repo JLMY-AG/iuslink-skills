@@ -21,7 +21,7 @@ Source rules:
 - Follow the loaded swiss-legal-research instructions, including historical-version and cantonal-text limitations.
 - Start with short legal keywords, statute names, or citations; do not submit natural-language questions to search tools.
 - A search result or metadata record is not proof of a holding. Open every relied-on decision with
-  get_entscheidsuche_document format=text and read the relevant passage in context.
+  get_entscheidsuche_document with format: "text" and read the relevant passage in context.
 - Do not fill a case quota. Stop when the question is answered with adequate authority or a documented source gap remains.
 
 Output:
