@@ -66,6 +66,16 @@ Copy individual skill directories into a supported skills location such as `~/.c
 | [`swiss-legal-deep-research`](./swiss-legal-deep-research/SKILL.md) | Orchestrates primary-source research for complex, comparative, or unsettled Swiss legal questions (Rechtsfrage, question juridique) across federal and cantonal law, building on swiss-legal-research and the iuslink tools. Use for multi-part, cross-jurisdiction (mehrere Kantone, interkantonal), or genuinely unclear questions. Not for direct statute, citation, or single-issue retrieval (use swiss-legal-research) and not for a full legal opinion (use swiss-legal-gutachten). |
 | [`swiss-legal-gutachten`](./swiss-legal-gutachten/SKILL.md) | Produces a neutral Swiss legal opinion (Gutachten, Rechtsgutachten, avis de droit, parere legale) that applies verified primary sources to stated facts, issue by issue, with counterarguments and calibrated confidence. Use for legal assessment and application of Swiss federal or cantonal law to a case (Sachverhalt, rechtliche Würdigung, Fallbeurteilung). Not for direct source retrieval (use swiss-legal-research) and not for drafting a court pleading. |
 
+## Contributing
+
+Run `python3 scripts/validate.py` before opening a pull request; CI runs the same script. Keep the versions in `package.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` and each skill's `metadata.version` in sync, and record user-visible changes in [CHANGELOG.md](./CHANGELOG.md).
+
+## Releases
+
+1. Bump the version in `package.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` and the `metadata.version` of every `SKILL.md`; `scripts/validate.py` fails when they disagree.
+2. Add the release to `CHANGELOG.md`.
+3. Tag the commit `vX.Y.Z` and create a GitHub release from the tag.
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).
