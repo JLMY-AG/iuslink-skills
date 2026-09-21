@@ -1,6 +1,10 @@
 ---
 name: swiss-legal-research
-description: Swiss legal research workflows for federal legislation (Fedlex), cantonal law (LexFind), and case law (Entscheidsuche/BGE). Use for any query requiring authoritative Swiss legal sources.
+description: "Swiss legal research workflows for federal legislation (Fedlex), cantonal law (LexFind), and case law (Entscheidsuche/BGE) via the iuslink tools. Use when a query needs authoritative Swiss legal sources: statutes and articles (OR, ZGB, StGB, BV, SR numbers, Bundesgesetz, Verordnung, loi fédérale, ordonnance), historical versions, Bundesgericht/BGE/Tribunal fédéral decisions, or cantonal enactments (kantonales Recht, droit cantonal). For multi-issue or comparative research use swiss-legal-deep-research; for a legal opinion (Gutachten) use swiss-legal-gutachten."
+license: MIT
+compatibility: Requires the iuslink MCP tools (Fedlex, Entscheidsuche, LexFind) exposed by the host.
+metadata:
+  version: "0.2.0"
 ---
 
 # Swiss legal research with iuslink

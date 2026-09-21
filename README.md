@@ -62,9 +62,9 @@ Copy individual skill directories into a supported skills location such as `~/.c
 
 | Skill | Description |
 |---|---|
-| [`swiss-legal-research`](./swiss-legal-research/SKILL.md) | Swiss legal research workflows for federal legislation (Fedlex), cantonal law (LexFind), and case law (Entscheidsuche/BGE). |
-| [`swiss-legal-deep-research`](./swiss-legal-deep-research/SKILL.md) | Multi-agent orchestration for complex or comparative legal questions — web may identify issues, while legal findings remain iuslink-only and primary-source verified. |
-| [`swiss-legal-gutachten`](./swiss-legal-gutachten/SKILL.md) | Produces a neutral Swiss legal opinion from stated facts and verified research, with issue-by-issue application, counterarguments, uncertainty, and source traceability. |
+| [`swiss-legal-research`](./swiss-legal-research/SKILL.md) | Swiss legal research workflows for federal legislation (Fedlex), cantonal law (LexFind), and case law (Entscheidsuche/BGE) via the iuslink tools. Use when a query needs authoritative Swiss legal sources: statutes and articles (OR, ZGB, StGB, BV, SR numbers, Bundesgesetz, Verordnung, loi fédérale, ordonnance), historical versions, Bundesgericht/BGE/Tribunal fédéral decisions, or cantonal enactments (kantonales Recht, droit cantonal). For multi-issue or comparative research use swiss-legal-deep-research; for a legal opinion (Gutachten) use swiss-legal-gutachten. |
+| [`swiss-legal-deep-research`](./swiss-legal-deep-research/SKILL.md) | Orchestrates primary-source research for complex, comparative, or unsettled Swiss legal questions (Rechtsfrage, question juridique) across federal and cantonal law, building on swiss-legal-research and the iuslink tools. Use for multi-part, cross-jurisdiction (mehrere Kantone, interkantonal), or genuinely unclear questions. Not for direct statute, citation, or single-issue retrieval (use swiss-legal-research) and not for a full legal opinion (use swiss-legal-gutachten). |
+| [`swiss-legal-gutachten`](./swiss-legal-gutachten/SKILL.md) | Produces a neutral Swiss legal opinion (Gutachten, Rechtsgutachten, avis de droit, parere legale) that applies verified primary sources to stated facts, issue by issue, with counterarguments and calibrated confidence. Use for legal assessment and application of Swiss federal or cantonal law to a case (Sachverhalt, rechtliche Würdigung, Fallbeurteilung). Not for direct source retrieval (use swiss-legal-research) and not for drafting a court pleading. |
 
 ## License
 

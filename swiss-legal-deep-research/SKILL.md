@@ -1,6 +1,10 @@
 ---
 name: swiss-legal-deep-research
-description: Orchestrates primary-source research for complex, comparative, or unsettled Swiss legal questions. Use for multi-part, cross-jurisdiction, or genuinely unclear questions—not direct statute, citation, or single-issue retrieval.
+description: "Orchestrates primary-source research for complex, comparative, or unsettled Swiss legal questions (Rechtsfrage, question juridique) across federal and cantonal law, building on swiss-legal-research and the iuslink tools. Use for multi-part, cross-jurisdiction (mehrere Kantone, interkantonal), or genuinely unclear questions. Not for direct statute, citation, or single-issue retrieval (use swiss-legal-research) and not for a full legal opinion (use swiss-legal-gutachten)."
+license: MIT
+compatibility: Requires the iuslink MCP tools (Fedlex, Entscheidsuche, LexFind) exposed by the host.
+metadata:
+  version: "0.2.0"
 ---
 
 # Swiss legal deep research

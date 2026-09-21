@@ -1,6 +1,10 @@
 ---
 name: swiss-legal-gutachten
-description: Produces a neutral Swiss legal opinion (Gutachten/Rechtsgutachten) that applies verified primary sources to stated facts. Use for legal assessment and application, not direct source retrieval or a court pleading.
+description: "Produces a neutral Swiss legal opinion (Gutachten, Rechtsgutachten, avis de droit, parere legale) that applies verified primary sources to stated facts, issue by issue, with counterarguments and calibrated confidence. Use for legal assessment and application of Swiss federal or cantonal law to a case (Sachverhalt, rechtliche Würdigung, Fallbeurteilung). Not for direct source retrieval (use swiss-legal-research) and not for drafting a court pleading."
+license: MIT
+compatibility: Requires the iuslink MCP tools (Fedlex, Entscheidsuche, LexFind) exposed by the host.
+metadata:
+  version: "0.2.0"
 ---
 
 # Swiss legal Gutachten
