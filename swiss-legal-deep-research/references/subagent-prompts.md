@@ -16,12 +16,13 @@ Counter-check: <specific limiting or contrary proposition to test>
 
 Source rules:
 - Use iuslink only (Fedlex / Entscheidsuche / LexFind). No web and no model-memory citations.
-- Iuslink operation names are logical names: call the exact host-provided tool ending with that operation (OMP prefixes them with mcp_iuslink_).
-- The swiss-legal-research skill is an instruction reference, not a tool. Never call a tool named skill or any swiss-legal-* workflow name.
+- Iuslink operation names are logical names: call the exact host-provided tool whose name ends with that operation (hosts may add a prefix).
+- Load swiss-legal-research through the host's skill-loading tool if it has one, otherwise by reading its SKILL.md. Skill names and workflow phase names are not iuslink operations; if a required iuslink operation is not exposed, report the blocker instead of substituting.
 - Follow the loaded swiss-legal-research instructions, including historical-version and cantonal-text limitations.
 - Start with short legal keywords, statute names, or citations; do not submit natural-language questions to search tools.
+- Set language explicitly on search_entscheidsuche (de / fr / it); the default de excludes French and Italian decisions.
 - A search result or metadata record is not proof of a holding. Open every relied-on decision with
-  get_entscheidsuche_document format=text and read the relevant passage in context.
+  get_entscheidsuche_document with format: "text" and read the relevant passage in context.
 - Do not fill a case quota. Stop when the question is answered with adequate authority or a documented source gap remains.
 
 Output:
@@ -60,7 +61,7 @@ Keep these separate.
 - result and effect on the answer
 
 ## Search log
-- queries, court filters, sort order, versions checked, citation hops
+- queries, court filters, language filters, sort order, versions checked, citation hops
 - material rejected candidates and why
 - unsuccessful searches relevant to remaining gaps
 
