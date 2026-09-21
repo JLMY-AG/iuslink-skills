@@ -3,15 +3,19 @@ name: swiss-legal-deep-research
 description: Orchestrates primary-source research for complex, comparative, or unsettled Swiss legal questions. Use for multi-part, cross-jurisdiction, or genuinely unclear questions—not direct statute, citation, or single-issue retrieval.
 ---
 
-## Dependency and routing
+# Swiss legal deep research
 
-This skill requires `../swiss-legal-research/SKILL.md`. Read it with the host's file-reading tool before researching. If it is unavailable, report that installation is incomplete and stop; do not replace its source rules from memory. It is an instruction file, not a callable tool.
+Orchestrate primary-source research for complex, comparative, or unsettled Swiss legal questions: frame the question, split it into non-overlapping issues, delegate iuslink-only research, and fuse the results through a claim-evidence matrix before synthesising. This skill adds orchestration; it does not weaken the source rules of the base skill.
+
+## Dependencies
+
+This skill builds on `swiss-legal-research` and follows its source, language, and tool-naming rules without restating them. Loading skills: if the host exposes a skill-loading tool (for example Claude Code's `Skill` tool), use it to load `swiss-legal-research`. Otherwise read `../swiss-legal-research/SKILL.md` with the host's file-reading tool. If neither works, report that the installation is incomplete and stop; do not reconstruct its rules from memory. Skill names and workflow phase names are not iuslink operations: never invent tools the host does not expose, and if a required iuslink operation is missing, report the blocker instead of substituting.
+
+## Routing
 
 - One fact, citation, statute, or clean legal question → load and follow `swiss-legal-research`; skip orchestration.
 - Two to four already-defined sub-questions → use **Standard mode**.
 - Broad, unclear, comparative, multi-jurisdictional, unsettled, or high-stakes question → use **Deep mode**.
-
-Never call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or workflow phases. This skill adds orchestration; it does not weaken the loaded source rules.
 
 ## Core rule: web finds questions, iuslink answers them
 

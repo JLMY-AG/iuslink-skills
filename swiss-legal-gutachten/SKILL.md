@@ -7,17 +7,17 @@ description: Produces a neutral Swiss legal opinion (Gutachten/Rechtsgutachten) 
 
 Prepare a reviewable, neutral legal opinion. The task is not to maximise support for one side, but to identify the governing law, apply it to the stated facts, expose material counterarguments, and calibrate the conclusion to the evidence.
 
-Use the user's language. In German, write Swiss Standard German (`ss`, not `ß`).
+Follow the language rules of `swiss-legal-research` (user's language; Swiss Standard German with `ss`).
 
-## Dependencies and boundaries
+## Dependencies
 
-This skill requires `../swiss-legal-research/SKILL.md`. Read it with the host's file-reading tool before researching. If it is unavailable, report that installation is incomplete and stop; do not replace its source rules from memory. It is an instruction file, not a callable tool.
+This skill builds on `swiss-legal-research` and, for multiple, comparative, unclear, or unsettled issues, on `swiss-legal-deep-research`; it follows their rules without restating them. Loading skills: if the host exposes a skill-loading tool (for example Claude Code's `Skill` tool), use it to load `swiss-legal-research` and, where needed, `swiss-legal-deep-research`. Otherwise read `../swiss-legal-research/SKILL.md` (and `../swiss-legal-deep-research/SKILL.md`) with the host's file-reading tool. If neither works, report that the installation is incomplete and stop; do not reconstruct its rules from memory. Skill names and workflow phase names are not iuslink operations: never invent tools the host does not expose, and if a required iuslink operation is missing, report the blocker instead of substituting. If the required iuslink tools are unavailable, do not manufacture a legal opinion: state the research blocker and, if useful, provide only a clearly labelled issue outline.
+
+## Scope and boundaries
 
 - For one clean issue, research directly under the loaded source rules.
-- For multiple, comparative, unclear, or unsettled issues, read and follow `../swiss-legal-deep-research/SKILL.md` when it is installed; otherwise research the narrow issues sequentially.
+- For multiple, comparative, unclear, or unsettled issues, follow `swiss-legal-deep-research` when it is installed; otherwise research the narrow issues sequentially.
 - This skill does not draft pleadings, mirror an opponent's brief, manage evidence exhibits, or render DOCX/PDF.
-
-Never call tools named `skill`, `swiss-legal-research`, `swiss-legal-deep-research`, or workflow phases. If required iuslink tools are unavailable, do not manufacture a legal opinion. State the research blocker and, if useful, provide only a clearly labelled issue outline.
 
 ## 1. Define the mandate
 
