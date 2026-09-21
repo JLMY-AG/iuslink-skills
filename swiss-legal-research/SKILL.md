@@ -34,9 +34,9 @@ Answer in the user's language. In German, write Swiss Standard German (`ss`, not
 | Statute, article unknown, alias known | `get_fedlex_outline` (pass the alias directly as `query`, e.g. `StGB`) → `get_fedlex_article` using the `eli_uri` the outline call returns |
 | Statute, article unknown, name unclear | `resolve_fedlex_statute` → `get_fedlex_outline` → `get_fedlex_article` |
 | Statute, historical version | `get_fedlex_text` with `as_of: "YYYY-MM-DD"`, or `list_fedlex_versions` → `get_fedlex_text` |
-| Case law, leading precedent on a topic | `search_entscheidsuche` with `courts: ["CH_BGer"]` and `sort: "relevance"` → `get_entscheidsuche_document` with `format: "text"` |
+| Case law, leading precedent on a topic | `search_entscheidsuche` with `courts: ["CH_BGer"]`, `sort: "relevance"` and `language: "<de|fr|it>"` → `get_entscheidsuche_document` with `format: "text"` |
 | Case law, citation known | `search_entscheidsuche` with the citation as the search term → `get_entscheidsuche_document` with `format: "text"` |
-| Case law, citation chain | `get_entscheidsuche_citations` (single hop — call again on a result to go further) |
+| Case law, citation chain | `get_entscheidsuche_citations` (what the decision cites, one hop; for what cites it, search the citation) |
 | Cantonal law (metadata + source link only) | `search_cantonal_law` with the search term and `cantons: ["<code>"]` → `get_cantonal_law` |
 
 None of the search tools accept natural language. `resolve_fedlex_statute` wants an alias, title fragment, or SR number (`StGB`, `Datenschutzgesetz`, `SR 311.0`); `search_entscheidsuche` wants short legal keywords or a citation/docket number. A phrased question returns zero results where keywords return hundreds (see `references/observed-behaviour.md`); rephrase before concluding that nothing exists.
@@ -50,13 +50,14 @@ None of the search tools accept natural language. `resolve_fedlex_statute` wants
 
 ## Working with case law
 
-- **Search is lexical and recency-sorted by default.** `search_entscheidsuche` is keyword search, not semantic, and sorts by date, newest first, across every court, so an unfiltered query surfaces whatever recent cantonal decision mentions the same words, not the leading precedent. To find the leading case, filter `courts` and set `sort: "relevance"` explicitly; never treat the first hit of a default search as "the" case (see `references/observed-behaviour.md`).
-- **Court codes.** Confirmed court filter codes: `CH_BGer` (Federal Supreme Court) and `CH_BGE` (its published decisions). For other courts read the `courts` argument description of the host's `search_entscheidsuche` tool; never guess a code.
+- **Search is lexical and recency-sorted by default.** `search_entscheidsuche` is keyword search, not semantic, and its default `sort: "date_desc"` orders by date, newest first, across every court, so an unfiltered query surfaces whatever recent cantonal decision mentions the same words, not the leading precedent. To find the leading case, filter `courts` and set `sort: "relevance"` explicitly for topical searches; never treat the first hit of a default search as "the" case (see `references/observed-behaviour.md`).
+- **Language filter defaults to German.** `search_entscheidsuche` applies `language: "de"` unless told otherwise, so an unqualified search returns no French or Italian decisions. Pass `language: "fr"` or `"it"` explicitly for Romandie or Ticino case law, and say which language you searched when reporting a negative result.
+- **Court codes.** Confirmed court filter codes: `CH_BGer` (Federal Supreme Court), `CH_BGE` (its published leading decisions) and `CH_BGB` (published decisions before 1954). For other courts read the `courts` argument description of the host's `search_entscheidsuche` tool; never guess a code.
 - **Ambiguous citations.** If a citation does not parse cleanly against `references/citation-formats.md`, run `search_entscheidsuche` with the raw string first to surface candidates before assuming a format.
-- **Always pass `format` explicitly** on `get_entscheidsuche_document`; the description and the schema have disagreed about the default, so never rely on it. `format: "json"` does not carry a body for every court (metadata only for some cantonal decisions whose text exists under `format: "text"`). For cantonal courts use `format: "text"` (or `"html"`), and never conclude that a decision has no content because the JSON form came back empty.
+- **Always pass `format` explicitly** on `get_entscheidsuche_document`: `"text"` (decision body, the server default), `"json"` (metadata only), or `"html"`. `"json"` carries no body for some cantonal decisions whose text exists under `"text"`; for cantonal courts use `"text"` (or `"html"`), and never conclude that a decision has no content because the JSON form came back empty.
 - **Pagination.** Long decisions are chunked. Use `has_more`, `next_offset`, and `total_chars` from the response to decide whether to fetch another chunk; never assume one call returned everything.
 - **Unresolvable signatures fail loudly** ("document text was not found; verify signature/spider or use search_entscheidsuche first"). If you hit this, go back to `search_entscheidsuche` rather than guessing a `spider` value.
-- **Citation chains are single-hop.** `get_entscheidsuche_citations` returns one flat list of directly related citations (both directions) and does not walk the network recursively. Call it again on a returned citation to go further.
+- **Citation chains are one-directional and single-hop.** `get_entscheidsuche_citations` returns the citations found inside the decision's own text (what it cites), one hop; it does not return later decisions that cite it. To find later decisions citing a case, run `search_entscheidsuche` with the citation as the search term. To follow a chain further, call `get_entscheidsuche_citations` again on a returned citation.
 
 ## Working with cantonal law
 
